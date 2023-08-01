@@ -1,19 +1,19 @@
-package com.springboot.mark.course.jdbc;
+package com.springboot.mark.course;
 
-import com.springboot.mark.course.Course;
+import com.springboot.mark.course.jpa.CourseJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CourseJdbcCommandLineRunner implements CommandLineRunner {
+public class CourseCommandLineRunner implements CommandLineRunner {
 
-    private final CourseJdbcRepository repository;
+//    @Autowired
+//    private CourseJdbcRepository repository;
 
     @Autowired
-    public CourseJdbcCommandLineRunner(CourseJdbcRepository repository) {
-        this.repository = repository;
-    }
+    private CourseJpaRepository repository;
+
 
     @Override
     public void run(String... args) throws Exception {
