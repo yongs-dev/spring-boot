@@ -1,6 +1,7 @@
 package com.springboot.mark.todo;
 
 import jakarta.validation.Valid;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -21,26 +22,30 @@ public class TodoController {
         this.todoService = todoService;
     }
 
+    private String getLoggedInUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
     @RequestMapping("list-todos")
     public String listAllTodos(ModelMap modelMap) {
-        modelMap.put("todos", todoService.findByUsername("ethan"));
+        modelMap.put("todos", todoService.findByUsername(getLoggedInUsername()));
         return "listTodos";
     }
 
     @RequestMapping(value = "add-todo", method = RequestMethod.GET)
     public String showNewTodoPage(ModelMap modelMap) {
-        Todo todo = new Todo(0, (String) modelMap.get("name"), "", LocalDate.now().plusYears(1), false);
+        Todo todo = new Todo(0, getLoggedInUsername(), "", LocalDate.now().plusYears(1), false);
         modelMap.put("todo", todo);
         return "todo";
     }
 
     @RequestMapping(value = "add-todo", method = RequestMethod.POST)
-    public String addNewTodo(ModelMap modelMap, @Valid Todo todo, BindingResult result) {
+    public String addNewTodo(@Valid Todo todo, BindingResult result) {
         if (result.hasErrors()) {
             return "todo";
         }
 
-        todoService.addTodo((String) modelMap.get("name"), todo.getDescription(), todo.getTargetDate(), false);
+        todoService.addTodo(getLoggedInUsername(), todo.getDescription(), todo.getTargetDate(), false);
         return "redirect:list-todos";
     }
 
@@ -57,12 +62,12 @@ public class TodoController {
     }
 
     @RequestMapping(value = "update-todo", method = RequestMethod.POST)
-    public String updateTpdp(ModelMap modelMap, @Valid Todo todo, BindingResult result) {
+    public String updateTpdp(@Valid Todo todo, BindingResult result) {
         if (result.hasErrors()) {
             return "todo";
         }
 
-        todo.setUsername((String) modelMap.get("name"));
+        todo.setUsername(getLoggedInUsername());
 
         todoService.updateTodo(todo);
         return "redirect:list-todos";
