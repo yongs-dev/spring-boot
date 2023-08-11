@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.time.LocalDate;
 
+@Controller
 @SessionAttributes("name")
-public class TodoController {
+public class TodoControllerJpa {
 
-    private final TodoService todoService;
+    private final TodoRepository todoRepository;
 
-    public TodoController(TodoService todoService) {
-        this.todoService = todoService;
+
+    public TodoControllerJpa(TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
     }
 
     private String getLoggedInUsername() {
@@ -27,7 +29,7 @@ public class TodoController {
 
     @RequestMapping("list-todos")
     public String listAllTodos(ModelMap modelMap) {
-        modelMap.put("todos", todoService.findByUsername(getLoggedInUsername()));
+        modelMap.put("todos", todoRepository.findByUsername(getLoggedInUsername()));
         return "listTodos";
     }
 
@@ -44,19 +46,20 @@ public class TodoController {
             return "todo";
         }
 
-        todoService.addTodo(getLoggedInUsername(), todo.getDescription(), todo.getTargetDate(), false);
+        todo.setUsername(getLoggedInUsername());
+        todoRepository.save(todo);
         return "redirect:list-todos";
     }
 
     @RequestMapping("delete-todo")
     public String deleteTodo(@RequestParam long id) {
-        todoService.deleteById(id);
+        todoRepository.deleteById(id);
         return "redirect:list-todos";
     }
 
     @RequestMapping("update-todo")
     public String showUpdateTodoPage(@RequestParam long id, ModelMap modelMap) {
-        modelMap.addAttribute("todo", todoService.findById(id));
+        modelMap.addAttribute("todo", todoRepository.findById(id).orElseThrow(IllegalArgumentException::new));
         return "todo";
     }
 
@@ -67,8 +70,7 @@ public class TodoController {
         }
 
         todo.setUsername(getLoggedInUsername());
-
-        todoService.updateTodo(todo);
+        todoRepository.save(todo);
         return "redirect:list-todos";
     }
 }

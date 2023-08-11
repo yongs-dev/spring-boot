@@ -1,13 +1,19 @@
 package com.springboot.mark.todo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
 
+@Entity
 public class Todo {
 
-    private int id;
+    @Id
+    @GeneratedValue
+    private long id;
     private String username;
 
     @Size(min = 10, message = "Enter at least 10 characters")
@@ -15,7 +21,9 @@ public class Todo {
     private LocalDate targetDate;
     private boolean done;
 
-    public Todo(int id, String username, String description, LocalDate targetDate, boolean done) {
+    public Todo() {}
+
+    public Todo(long id, String username, String description, LocalDate targetDate, boolean done) {
         this.id = id;
         this.username = username;
         this.description = description;
@@ -23,11 +31,11 @@ public class Todo {
         this.done = done;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
