@@ -1,5 +1,6 @@
 package com.spring.mark.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Past;
@@ -13,9 +14,11 @@ public class User {
     @Id
     private Integer id;
 
+    @JsonProperty("user_name")
     @Size(min = 2, message = "Name should have atleast 2 characters")
     private String name;
 
+    @JsonProperty("birth_date")
     @Past(message = "Birth Date should be in the past")
     private LocalDate birthDate;
 
