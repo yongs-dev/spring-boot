@@ -15,9 +15,9 @@ public class TodoService {
 	private static int todosCount = 0;
 	
 	static {
-		todos.add(new Todo(++todosCount, "Ethan","Get AWS Certified", LocalDate.now().plusYears(1), false ));
-		todos.add(new Todo(++todosCount, "Ethan","Learn DevOps", LocalDate.now().plusYears(2), false ));
-		todos.add(new Todo(++todosCount, "Ethan","Learn Full Stack Development", LocalDate.now().plusYears(3), false ));
+		todos.add(new Todo(++todosCount, "mark","Get AWS Certified", LocalDate.now().plusYears(1), false ));
+		todos.add(new Todo(++todosCount, "mark","Learn DevOps", LocalDate.now().plusYears(2), false ));
+		todos.add(new Todo(++todosCount, "mark","Learn Full Stack Development", LocalDate.now().plusYears(3), false ));
 	}
 	
 	public List<Todo> findByUsername(String username){
