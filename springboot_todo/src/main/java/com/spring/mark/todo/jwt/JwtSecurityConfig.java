@@ -50,7 +50,7 @@ public class JwtSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(new MvcRequestMatcher(introspector, "/authenticate")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/**", HttpMethod.OPTIONS.name())).permitAll() // Allow OPTIONS requests for all paths
-                        .requestMatchers(PathRequest.toH2Console()).permitAll() // h2-console is a servlet and NOT recommended for production
+//                        .requestMatchers(PathRequest.toH2Console()).permitAll() // h2-console is a servlet and NOT recommended for production
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
