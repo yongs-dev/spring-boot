@@ -20,7 +20,7 @@ public class TodoApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 						.allowedMethods("*")
-						.allowedOrigins("http://localhost:3001");
+						.allowedOrigins("http://localhost:3000", "http://localhost:3001");
 			}
 		};
 	}

@@ -1,7 +1,6 @@
 package com.spring.mark.todo.basic;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,7 +8,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
+// JWT 사용. Basic 인증 제외
+//@Configuration
 public class BasicAuthenticationSecurityConfiguration {
 
     @Bean
