@@ -43,18 +43,21 @@ public class BasicAuthSecurityConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService(DataSource dataSource) {
-        UserDetails user = User.withUsername("mark")
-                .password("{noop}123123")
-                .roles("USER")
-                .build();
-        UserDetails admin = User.withUsername("admin")
-                .password("{noop}123123")
-                .roles("ADMIN")
-                .build();
-
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-        jdbcUserDetailsManager.createUser(user);
-        jdbcUserDetailsManager.createUser(admin);
+
+        if (!jdbcUserDetailsManager.userExists("mark")) {
+            UserDetails user = User.withUsername("mark")
+                    .password("{noop}123123")
+                    .roles("USER")
+                    .build();
+            jdbcUserDetailsManager.createUser(user);
+        } else if (!jdbcUserDetailsManager.userExists("admin")) {
+            UserDetails admin = User.withUsername("admin")
+                    .password("{noop}123123")
+                    .roles("ADMIN")
+                    .build();
+            jdbcUserDetailsManager.createUser(admin);
+        }
 
         return jdbcUserDetailsManager;
     }
