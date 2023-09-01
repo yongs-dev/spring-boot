@@ -18,6 +18,10 @@ public class TodoResource {
     }
 
     @GetMapping("/users/{username}/todos")
+    // Method Security
+//    @PreAuthorize("hasRole('USER') and #username == authentication.name")
+//    @PostAuthorize("returnObject.username == authentication.name")
+//    @RolesAllowed({"ADMIN", "USER"})
     public Todo retrieveTodosForSpecificUser(@PathVariable String username) {
         return TODOS_LIST.get(0);
     }

@@ -31,12 +31,18 @@ import java.util.UUID;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@Configuration
+//@Configuration
+//@EnableMethodSecurity   // @PreAuthorize / @PostAuthorize
+//@EnableMethodSecurity(jsr250Enabled = true)   // @RolesAllowed
 public class JwtAuthSecurityConfiguration {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests((auth) -> auth.anyRequest().authenticated())
+        return http.authorizeHttpRequests(auth ->
+//                        auth.requestMatchers("/users").hasRole("USER")      // Global Security
+//                            .requestMatchers("/admin/**").hasRole("ADMIN")  // Global Security
+                            auth.anyRequest().authenticated()
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
