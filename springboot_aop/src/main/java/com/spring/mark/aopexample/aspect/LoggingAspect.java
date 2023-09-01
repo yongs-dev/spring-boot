@@ -12,18 +12,18 @@ public class LoggingAspect {
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Before("execution(* com.spring.mark.aopexample.*.*.*(..))")
+    @Before("com.spring.mark.aopexample.aspect.CommonPointcutConfig.allPackageConfigUsingBean()")
     public void logMethodCallBeforeExecution(JoinPoint joinPoint) {
         logger.info("Before Aspect - {} is called with arguments: {}", joinPoint, joinPoint.getArgs());
     }
 
-    @After("execution(* com.spring.mark.aopexample.*.*.*(..))")
+    @After("com.spring.mark.aopexample.aspect.CommonPointcutConfig.businessPackageConfig()")
     public void logMethodCallAfterExecution(JoinPoint joinPoint) {
         logger.info("After Aspect - {} has executed", joinPoint);
     }
 
     @AfterThrowing(
-            pointcut = "execution(* com.spring.mark.aopexample.*.*.*(..))",
+            pointcut = "com.spring.mark.aopexample.aspect.CommonPointcutConfig.businessAndDataPackageConfig()",
             throwing = "exception"
     )
     public void logMethodCallAfterException(JoinPoint joinPoint, Exception exception) {
@@ -31,7 +31,7 @@ public class LoggingAspect {
     }
 
     @AfterReturning(
-            pointcut = "execution(* com.spring.mark.aopexample.*.*.*(..))",
+            pointcut = "com.spring.mark.aopexample.aspect.CommonPointcutConfig.dataPackageConfig()",
             returning = "resultValue"
     )
     public void logMethodCallAfterSuccessfulExecution(JoinPoint joinPoint, Object resultValue) {
